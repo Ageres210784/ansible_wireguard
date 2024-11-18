@@ -50,10 +50,9 @@
   loop: "{{ wireguard_peers }}"
 
 - name: Start docker wireguard container
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_name: wireguard
     definition:
-      version: '2'
       services:
         wireguard:
           image: "linuxserver/wireguard"
@@ -82,8 +81,8 @@
             - "LOG_CONFS={{ wireguard_log_confs }}"
       networks:
         default:
-          external:
-            name: "{{ wireguard_docker_network_name }}"
+          external: true
+          name: "{{ wireguard_docker_network_name }}"
 
 - name: Remove old peers' configs
   file:
